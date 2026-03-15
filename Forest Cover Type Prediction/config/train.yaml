@@ -1,0 +1,42 @@
+# EcoType: training configuration (experiment controls)
+# Keep ALL training knobs here so runs are reproducible and comparable.
+
+experiment:
+  name: baseline_v1
+  notes: "Initial baseline training run"
+
+data:
+  target_col: cover_type                # update if your target column name differs
+  id_cols: []                           # optional: columns to drop (e.g., IDs)
+  drop_cols: []                         # optional: columns to drop
+
+split:
+  test_size: 0.20                       # 80/20 train-test split
+  stratify: true                        # keep class proportions across splits (recommended for classification)
+  shuffle: true
+  random_state: 42
+
+cv:
+  strategy: stratified_kfold            # options: kfold, stratified_kfold
+  n_splits: 5
+  shuffle: true
+  random_state: 42
+
+metrics:
+  primary: f1_macro                     # primary metric for tuning/model selection
+  report:                               # metrics you want printed/saved in reports
+    - accuracy
+    - f1_macro
+    - f1_weighted
+
+training:
+  # If you have a long-running notebook/script, these help keep runs manageable
+  n_jobs: -1                            # use all cores where supported
+  verbose: 1
+
+artifacts:
+  save_model: true
+  model_path: models/best_model.joblib
+  reports_dir: reports
+  metrics_path: reports/metrics.json
+  classification_report_path: reports/classification_report.txt

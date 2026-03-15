@@ -1,0 +1,8 @@
+,pred_Aspen,pred_Cottonwood/Willow,pred_Douglas-fir,pred_Krummholz,pred_Lodgepole Pine,pred_Ponderosa Pine,pred_Spruce/Fir
+true_Aspen,536,0,6,0,64,7,1
+true_Cottonwood/Willow,0,412,6,0,0,14,0
+true_Douglas-fir,3,12,382,0,2,33,0
+true_Krummholz,0,0,0,417,3,0,12
+true_Lodgepole Pine,30,0,17,5,20316,4,242
+true_Ponderosa Pine,4,10,50,0,2,366,0
+true_Spruce/Fir,10,0,2,24,622,0,5564

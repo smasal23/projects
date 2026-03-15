@@ -1,0 +1,13 @@
+                   precision    recall  f1-score   support
+
+            Aspen       0.91      0.87      0.89       614
+Cottonwood/Willow       0.95      0.96      0.95       432
+      Douglas-fir       0.84      0.88      0.86       432
+        Krummholz       0.94      0.97      0.95       432
+   Lodgepole Pine       0.97      0.98      0.98     20614
+   Ponderosa Pine       0.85      0.85      0.85       432
+       Spruce/Fir       0.95      0.90      0.92      6222
+
+         accuracy                           0.96     29178
+        macro avg       0.91      0.91      0.91     29178
+     weighted avg       0.96      0.96      0.96     29178

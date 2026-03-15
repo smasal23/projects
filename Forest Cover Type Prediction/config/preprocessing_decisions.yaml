@@ -1,0 +1,71 @@
+data_source: F:\DATA SCIENCE\Projects\Forest Cover Type Prediction\data\processed\forest_cover_selected.csv
+target_column: cover_type
+split:
+  test_size: 0.2
+  random_state: 42
+  stratify: true
+  shuffle: true
+feature_types:
+  numeric_columns:
+  - elevation
+  - aspect
+  - vertical_distance_to_hydrology
+  - horizontal_distance_to_roadways
+  - hillshade_9am
+  - hillshade_3pm
+  - horizontal_distance_to_fire_points
+  - wilderness_area
+  - soil_type
+  - aspect_sin
+  - aspect_cos
+  - hydrology_distance
+  - hillshade_mean
+  - hillshade_std
+  - elevation_slope_interaction
+  - elevation_slope_ratio
+  - road_fire_gap
+  - road_fire_ratio
+  - hydrology_fire_ratio
+  - hydrology_road_ratio
+  categorical_columns: []
+  n_numeric: 20
+  n_categorical: 0
+output:
+  n_output_features: 20
+  feature_names_preview:
+  - elevation
+  - aspect
+  - vertical_distance_to_hydrology
+  - horizontal_distance_to_roadways
+  - hillshade_9am
+  - hillshade_3pm
+  - horizontal_distance_to_fire_points
+  - wilderness_area
+  - soil_type
+  - aspect_sin
+  - aspect_cos
+  - hydrology_distance
+  - hillshade_mean
+  - hillshade_std
+  - elevation_slope_interaction
+  - elevation_slope_ratio
+  - road_fire_gap
+  - road_fire_ratio
+  - hydrology_fire_ratio
+  - hydrology_road_ratio
+validation:
+  train_shape_before:
+  - 116712
+  - 20
+  test_shape_before:
+  - 29178
+  - 20
+  train_shape_after:
+  - 116712
+  - 20
+  test_shape_after:
+  - 29178
+  - 20
+  train_nan_count: 0
+  test_nan_count: 0
+  passed_no_nan_check: true

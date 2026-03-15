@@ -1,0 +1,19 @@
+# Feature Definitions
+
+This file documents engineered features created in `src/features/build_features.py`.
+
+| Feature | Definition |
+|---|---|
+| aspect_sin | Sine transform of aspect in radians to represent circular direction. |
+| aspect_cos | Cosine transform of aspect in radians to represent circular direction. |
+| hydrology_distance | Euclidean distance to hydrology computed from horizontal and vertical hydrology distances. |
+| vertical_distance_to_hydrology_abs | Absolute vertical distance to hydrology, ignoring above/below sign. |
+| hillshade_mean | Mean hillshade across 9am, noon, and 3pm. |
+| hillshade_range | Difference between maximum and minimum hillshade across the day. |
+| hillshade_std | Standard deviation of hillshade values across the day. |
+| elevation_slope_interaction | Interaction term between elevation and slope. |
+| elevation_slope_ratio | Elevation divided by slope magnitude to capture terrain gradient relationship. |
+| road_fire_gap | Absolute difference between horizontal distance to roadways and fire points. |
+| road_fire_ratio | Horizontal distance to roadways divided by horizontal distance to fire points. |
+| hydrology_fire_ratio | Horizontal distance to hydrology divided by horizontal distance to fire points. |
+| hydrology_road_ratio | Horizontal distance to hydrology divided by horizontal distance to roadways. |

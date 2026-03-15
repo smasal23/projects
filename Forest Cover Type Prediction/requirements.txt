@@ -1,0 +1,21 @@
+numpy
+pandas
+scikit-learn
+scipy
+matplotlib
+seaborn
+joblib
+pyyaml
+streamlit
+
+# Optional (uncomment if used)
+# xgboost
+# lightgbm
+# imbalanced-learn
+# optuna
+
+# Dev tools (optional but recommended)
+#pytest
+#black
+#flake8
+#isort

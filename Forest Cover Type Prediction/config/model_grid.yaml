@@ -1,0 +1,72 @@
+# EcoType: hyperparameter grids for tuning
+# Keep grids SMALL first to iterate fast; expand after you have a stable pipeline.
+
+# Notes:
+# - These keys are designed for sklearn Pipeline usage, e.g.:
+#   Pipeline([("prep", preprocess), ("model", RandomForestClassifier(...))])
+# - Therefore params are prefixed with "model__"
+# - Only keep grids for models you actually tune.
+
+tuning:
+  cv_scoring: f1_macro        # should match train.yaml primary metric
+  refit: true
+  n_jobs: -1
+  verbose: 1
+
+grids:
+
+  logistic_regression:
+    estimator: sklearn.linear_model.LogisticRegression
+    fixed_params:
+      max_iter: 5000
+      n_jobs: -1
+    param_grid:
+      model__C: [0.1, 1.0, 10.0]
+      model__penalty: ["l2"]
+      model__solver: ["lbfgs"]
+
+  random_forest:
+    estimator: sklearn.ensemble.RandomForestClassifier
+    fixed_params:
+      n_jobs: -1
+      random_state: 42
+    param_grid:
+      model__n_estimators: [100, 150, 200]
+      model__max_depth: [15, 20, null]
+      model__min_samples_split: [2, 5]
+      model__min_samples_leaf: [1, 2]
+      model__max_features: ["sqrt"]
+
+  extra_trees:
+    model__n_estimators: [ 100, 150 ]
+    model__max_depth: [15, 20, null]
+    model__min_samples_split: [ 2, 5 ]
+    model__min_samples_leaf: [ 1, 2 ]
+    model__max_features: ["sqrt"]
+
+  gradient_boosting:
+    estimator: sklearn.ensemble.GradientBoostingClassifier
+    fixed_params:
+      random_state: 42
+    param_grid:
+      model__n_estimators: [200, 400]
+      model__learning_rate: [0.05, 0.1]
+      model__max_depth: [3, 5]
+      model__subsample: [1.0]   # keep simple first
+
+  # Optional (only if you are using XGBoost in code + installed xgboost)
+  # xgboost:
+  #   estimator: xgboost.XGBClassifier
+  #   fixed_params:
+  #     objective: "multi:softprob"
+  #     eval_metric: "mlogloss"
+  #     tree_method: "hist"
+  #     n_jobs: -1
+  #     random_state: 42
+  #   param_grid:
+  #     model__n_estimators: [300, 600]
+  #     model__max_depth: [4, 6]
+  #     model__learning_rate: [0.05, 0.1]
+  #     model__subsample: [0.8, 1.0]
+  #     model__colsample_bytree: [0.8, 1.0]
+

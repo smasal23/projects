@@ -1,0 +1,41 @@
+# EcoType: central path registry (single source of truth)
+# Use this file from scripts/notebooks/apps to avoid hardcoding local paths.
+
+project:
+  name: EcoType
+  base_dir: .
+
+directories:
+  configs: configs
+  src: src
+  notebooks: notebooks
+  app: app
+
+data:
+  raw_dir: data/raw
+  interim_dir: data/interim
+  processed_dir: data/processed
+
+artifacts:
+  models_dir: models
+  reports_dir: reports
+  figures_dir: reports/figures
+
+files:
+  # Expected raw dataset file name (change if yours differs)
+  raw_dataset: covtype.csv
+
+  # Common outputs (your scripts can write to these)
+  processed_dataset: data/processed/covtype_processed.csv
+  train_features: data/processed/X_train.csv
+  test_features: data/processed/X_test.csv
+  train_labels: data/processed/y_train.csv
+  test_labels: data/processed/y_test.csv
+
+  # Saved model/pipeline
+  best_model: models/best_model.joblib
+
+  # Reports
+  metrics_json: reports/metrics.json
+  classification_report_txt: reports/classification_report.txt
+  confusion_matrix_png: reports/figures/confusion_matrix.png
