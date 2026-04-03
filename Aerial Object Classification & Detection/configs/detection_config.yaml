@@ -17,10 +17,71 @@ dataset:
   class_id_min: 0
   class_id_max: 99
 
+  class_names:
+    - bird
+    - drone
+
 audit:
   overlay_sample_count: 6
   random_seed: 42
+  inspect_label_files_per_split: 3
 
 visualization:
   figure_size: [16, 10]
   dpi: 150
+
+data_yaml:
+  output_path: "data/processed/detection/data.yaml"
+  include_test: true
+
+training:
+  seed: 42
+  model_size: "yolov8n.pt"
+  epochs: 25
+  imgsz: 640
+  batch: 16
+  patience: 8
+  workers: 2
+  device: 0
+  project_dir: "models/detection"
+  run_name: "yolov8"
+  exist_ok: true
+  verbose: true
+
+validation:
+  split: "test"
+  save_json: true
+  plots: true
+  project_dir: "models/detection"
+  run_name: "yolov8_val"
+
+inference:
+  source_split: "test"
+  conf: 0.25
+  save: true
+  save_txt: false
+  line_width: 2
+  project_dir: "models/detection"
+  run_name_test: "yolov8_test_predictions"
+  run_name_new: "yolov8_new_predictions"
+
+artifacts:
+  trained_run_dir: "models/detection/yolov8"
+  final_model_path: "models/detection/final/best_detector.pt"
+  results_csv: "models/detection/yolov8/results.csv"
+  args_yaml: "models/detection/yolov8/args.yaml"
+  best_checkpoint: "models/detection/yolov8/weights/best.pt"
+  last_checkpoint: "models/detection/yolov8/weights/last.pt"
+  validation_metrics_json: "models/detection/yolov8/validation_metrics.json"
+  inference_summary_json: "models/detection/yolov8/inference_summary.json"
+
+reports:
+  report_path: "reports/detection_report.md"
+  observations_path: "reports/detection_observations.md"
+
+figures:
+  val_preview: "figures/detection/yolo_val_preview.png"
+  test_predictions: "figures/detection/yolo_test_predictions.png"
+  new_predictions: "figures/detection/yolo_new_image_predictions.png"
+  docs_predictions: "docs/images/yolo_predictions.png"
+  overlay_preview: "figures/detection/dataset_overlay_preview.png"

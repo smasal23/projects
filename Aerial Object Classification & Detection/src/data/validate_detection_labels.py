@@ -1,5 +1,7 @@
 from pathlib import Path
-from typing import Dict, List, Tuple
+from typing import Dict, List, Tuple, Optional
+import random
+
 import cv2
 import pandas as pd
 
@@ -69,6 +71,9 @@ def validate_yolo_line(values: List[str]) -> Tuple[bool, str]:
 def validate_yolo_label_file(label_path: Path) -> List[Dict]:
     """
     Validate each line in a YOLO label file.
+
+    Notes:
+    - Empty label files are treated as valid and indicate background / no-object images.
     """
     results = []
 
@@ -83,15 +88,16 @@ def validate_yolo_label_file(label_path: Path) -> List[Dict]:
         )
         return results
 
-    lines = label_path.read_text(encoding="utf-8").strip().splitlines()
+    raw_text = label_path.read_text(encoding="utf-8").strip()
+    lines = raw_text.splitlines() if raw_text else []
 
     if len(lines) == 0:
         results.append(
             {
                 "label_file": str(label_path),
                 "line_number": None,
-                "is_valid": False,
-                "message": "Empty label file",
+                "is_valid": True,
+                "message": "Empty label file (background image)",
             }
         )
         return results
@@ -119,7 +125,6 @@ def validate_detection_dataset(dataset_root: Path, splits: List[str]) -> pd.Data
 
     for split in splits:
         split_root = dataset_root / split
-        image_dir = split_root / "images"
         label_dir = split_root / "labels"
 
         pair_issues = find_unmatched_pairs(split_root)
@@ -162,23 +167,83 @@ def validate_detection_dataset(dataset_root: Path, splits: List[str]) -> pd.Data
     return pd.DataFrame(records)
 
 
-def overlay_yolo_boxes_on_image(image_path: Path, label_path: Path):
+def parse_yolo_label_file(label_path: Path) -> List[Dict]:
     """
-    Return an OpenCV image with YOLO boxes drawn.
+    Parse a YOLO label file into structured rows.
+    """
+    rows: List[Dict] = []
+    if not label_path.exists():
+        return rows
+
+    raw_text = label_path.read_text(encoding="utf-8").strip()
+    lines = raw_text.splitlines() if raw_text else []
+
+    for line in lines:
+        parts = line.strip().split()
+        if len(parts) != 5:
+            continue
+
+        rows.append(
+            {
+                "class_id": int(float(parts[0])),
+                "x_center": float(parts[1]),
+                "y_center": float(parts[2]),
+                "width": float(parts[3]),
+                "height": float(parts[4]),
+            }
+        )
+
+    return rows
+
+
+def read_label_preview(label_path: Path) -> str:
+    """
+    Return label text for notebook inspection.
+    """
+    if not label_path.exists():
+        return ""
+    return label_path.read_text(encoding="utf-8").strip()
+
+
+def sample_detection_images(split_images_dir: Path, n_samples: int = 6, seed: int = 42) -> List[Path]:
+    """
+    Sample a few detection images reproducibly.
+    """
+    image_paths = sorted(split_images_dir.glob("*.jpg")) if split_images_dir.exists() else []
+    if not image_paths:
+        return []
+
+    random.seed(seed)
+    n = min(n_samples, len(image_paths))
+    return random.sample(image_paths, n)
+
+
+def overlay_yolo_boxes_on_image(
+    image_path: Path,
+    label_path: Path,
+    class_names: Optional[List[str]] = None,
+):
+    """
+    Return an RGB image with YOLO boxes drawn.
     """
     image = cv2.imread(str(image_path))
     if image is None:
         raise ValueError(f"Could not read image: {image_path}")
 
     h, w = image.shape[:2]
+    class_names = class_names or []
 
     if label_path.exists():
-        for line in label_path.read_text(encoding="utf-8").strip().splitlines():
+        raw_text = label_path.read_text(encoding="utf-8").strip()
+        lines = raw_text.splitlines() if raw_text else []
+
+        for line in lines:
             parts = line.strip().split()
             if len(parts) != 5:
                 continue
 
             class_id, xc, yc, bw, bh = parts
+            class_id_int = int(float(class_id))
             xc = float(xc)
             yc = float(yc)
             bw = float(bw)
@@ -194,10 +259,14 @@ def overlay_yolo_boxes_on_image(image_path: Path, label_path: Path):
             x2 = min(center_x + box_w // 2, w - 1)
             y2 = min(center_y + box_h // 2, h - 1)
 
+            label_text = f"class {class_id_int}"
+            if 0 <= class_id_int < len(class_names):
+                label_text = class_names[class_id_int]
+
             cv2.rectangle(image, (x1, y1), (x2, y2), (0, 255, 0), 2)
             cv2.putText(
                 image,
-                f"class {class_id}",
+                label_text,
                 (x1, max(y1 - 10, 10)),
                 cv2.FONT_HERSHEY_SIMPLEX,
                 0.5,

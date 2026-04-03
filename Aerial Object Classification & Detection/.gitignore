@@ -56,3 +56,15 @@ runs/
 # Misc
 *.tmp
 *.bak
+
+.env
+*.log
+*.csv
+*.json
+*.h5
+*.keras
+*.pt
+data/
+models/
+*.ipynb_checkpoints
+.DS_Store

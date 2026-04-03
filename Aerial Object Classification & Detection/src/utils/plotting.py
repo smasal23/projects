@@ -1,12 +1,15 @@
 from pathlib import Path
-from typing import List, Optional
+from typing import List, Optional, Sequence, Tuple
 import math
+
 import matplotlib.pyplot as plt
-from PIL import Image
 import numpy as np
+import torch
+from PIL import Image
 
 
 def save_current_figure(output_path: Path, dpi: int = 150) -> None:
+    output_path = Path(output_path)
     output_path.parent.mkdir(parents=True, exist_ok=True)
     plt.tight_layout()
     plt.savefig(output_path, dpi=dpi, bbox_inches="tight")
@@ -48,3 +51,48 @@ def plot_image_grid(
         save_current_figure(output_path, dpi=dpi)
     else:
         plt.show()
+
+
+def tensor_to_display_image(
+    tensor: torch.Tensor,
+    mean: Optional[Sequence[float]] = None,
+    std: Optional[Sequence[float]] = None,
+) -> np.ndarray:
+    """
+    Convert a CHW tensor to a displayable HWC numpy image.
+    Optionally denormalize using mean/std.
+    """
+    if tensor.ndim != 3:
+        raise ValueError("Expected a 3D tensor in CHW format.")
+
+    image = tensor.detach().cpu().float().clone()
+
+    if mean is not None and std is not None:
+        mean_t = torch.tensor(mean).view(-1, 1, 1)
+        std_t = torch.tensor(std).view(-1, 1, 1)
+        image = image * std_t + mean_t
+
+    image = image.clamp(0.0, 1.0)
+    image = image.permute(1, 2, 0).numpy()
+    return image
+
+
+def save_tensor_preview(
+    tensor: torch.Tensor,
+    output_path: Path,
+    title: str,
+    mean: Optional[Sequence[float]] = None,
+    std: Optional[Sequence[float]] = None,
+    dpi: int = 150,
+    figsize: Tuple[int, int] = (6, 6),
+) -> None:
+    """
+    Save a single tensor image preview.
+    """
+    image = tensor_to_display_image(tensor=tensor, mean=mean, std=std)
+
+    plt.figure(figsize=figsize)
+    plt.imshow(image)
+    plt.title(title)
+    plt.axis("off")
+    save_current_figure(output_path=output_path, dpi=dpi)

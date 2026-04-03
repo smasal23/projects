@@ -1,5 +1,6 @@
 # Normalize text files
 * text=auto
+*.ipynb filter=nbstripout
 
 # Optional Git LFS tracking examples
 # *.pt filter=lfs diff=lfs merge=lfs -text

@@ -12,6 +12,26 @@ dataset:
   allowed_extensions:
     - ".jpg"
 
+  loader:
+    image_size: [224, 224]
+    batch_size: 32
+    num_workers: 2
+    pin_memory: true
+    shuffle_train: true
+    drop_last_train: false
+
+  normalization:
+    enabled: true
+    scale_pixels_to_unit_interval: true
+
+  validation:
+    require_non_empty_split: true
+    require_all_expected_classes_per_split: true
+
+  class_mapping:
+    save_mapping_json: true
+    mapping_file_name: "class_mapping.json"
+
 audit:
   sample_images_per_class: 8
   random_seed: 42
@@ -19,3 +39,70 @@ audit:
 visualization:
   figure_size: [16, 10]
   dpi: 150
+
+custom_cnn:
+  experiment_name: "custom_cnn_baseline"
+
+  training:
+    seed: 42
+    image_size: [224, 224]
+    batch_size: 32
+    epochs: 25
+    optimizer: "adam"
+    learning_rate: 0.001
+    label_mode: "binary"   # use "binary" for 2-class sigmoid setup, "categorical" for softmax
+    loss: "auto"           # auto resolves from label_mode
+    metrics:
+      - "accuracy"
+      - "precision"
+      - "recall"
+
+  augmentation:
+    rotation_factor: 0.08
+    horizontal_flip: true
+    vertical_flip: false
+    zoom_factor: 0.10
+    brightness_factor: 0.15
+    translation_height_factor: 0.08
+    translation_width_factor: 0.08
+
+  model:
+    input_shape: [224, 224, 3]
+    conv_filters: [32, 64, 128, 256]
+    kernel_size: 3
+    dense_units: 128
+    block_dropout_rates: [0.10, 0.15, 0.20, 0.25]
+    classifier_dropout: 0.40
+    l2_regularization: 0.0001
+
+  callbacks:
+    early_stopping:
+      monitor: "val_loss"
+      mode: "min"
+      patience: 5
+      min_delta: 0.0005
+      restore_best_weights: true
+
+    model_checkpoint:
+      monitor: "val_loss"
+      mode: "min"
+      save_best_only: true
+
+    reduce_lr_on_plateau:
+      enabled: true
+      monitor: "val_loss"
+      mode: "min"
+      factor: 0.5
+      patience: 2
+      min_lr: 0.000001
+
+  artifacts:
+    model_dir: "models/classification/custom_cnn"
+    best_model_name: "best_model.keras"
+    final_model_name: "final_model.keras"
+    history_name: "history.json"
+    metrics_name: "metrics.json"
+    report_path: "reports/custom_cnn_report.md"
+    augmentation_preview_path: "figures/preprocessing/augmentation_preview.png"
+    accuracy_curve_path: "figures/training/custom_cnn_accuracy.png"
+    loss_curve_path: "figures/training/custom_cnn_loss.png"

@@ -14,7 +14,7 @@ paths:
   interim_root: "/content/drive/MyDrive/Aerial_Object_Classification_Detection/data/interim"
   processed_root: "/content/drive/MyDrive/Aerial_Object_Classification_Detection/data/processed"
 
-  classification_dataset: "/content/drive/MyDrive/Aerial_Object_Classification_Detection/data/raw/classification_dataset/data/raw/"
+  classification_dataset: "/content/drive/MyDrive/Aerial_Object_Classification_Detection/data/raw/classification_dataset"
   object_detection_dataset: "/content/drive/MyDrive/Aerial_Object_Classification_Detection/data/raw/object_detection_dataset"
 
   dataset_audit_dir: "/content/drive/MyDrive/Aerial_Object_Classification_Detection/data/interim/dataset_audit"

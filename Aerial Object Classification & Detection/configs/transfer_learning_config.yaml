@@ -2,14 +2,155 @@ experiment:
   name: "transfer_learning_baseline"
 
 training:
+  seed: 42
   image_size: [224, 224]
   batch_size: 32
-  epochs: 10
-  learning_rate: 0.0001
-  seed: 42
-
-model:
-  backbone: "resnet50"
-  pretrained: true
+  label_mode: "binary"
   num_classes: 2
-  freeze_backbone: true
+  epochs_frozen: 8
+  epochs_finetune: 8
+  optimizer: "adam"
+  frozen_learning_rate: 0.001
+  finetune_learning_rate: 0.0001
+  shuffle_buffer: true
+
+models:
+  mobilenet:
+    enabled: true
+    backbone: "mobilenetv2"
+    input_shape: [224, 224, 3]
+    weights: "imagenet"
+    include_top: false
+    pooling: "avg"
+    dense_units: 128
+    dropout_rate: 0.30
+    l2_regularization: 0.0001
+    freeze_backbone: true
+    fine_tune:
+      enabled: true
+      unfreeze_top_layers: 20
+
+    callbacks:
+      early_stopping:
+        monitor: "val_loss"
+        mode: "min"
+        patience: 4
+        min_delta: 0.0005
+        restore_best_weights: true
+
+      model_checkpoint:
+        monitor: "val_loss"
+        mode: "min"
+        save_best_only: true
+
+      reduce_lr_on_plateau:
+        enabled: true
+        monitor: "val_loss"
+        mode: "min"
+        factor: 0.5
+        patience: 2
+        min_lr: 0.000001
+
+    artifacts:
+      model_dir: "models/classification/mobilenet"
+      best_model_name: "best_model.keras"
+      final_model_name: "final_model.keras"
+      history_name: "history.json"
+      metrics_name: "metrics.json"
+      accuracy_curve_path: "figures/training/mobilenet_accuracy.png"
+      loss_curve_path: "figures/training/mobilenet_loss.png"
+
+  resnet50:
+    enabled: true
+    backbone: "resnet50"
+    input_shape: [224, 224, 3]
+    weights: "imagenet"
+    include_top: false
+    pooling: "avg"
+    dense_units: 256
+    dropout_rate: 0.40
+    l2_regularization: 0.0001
+    freeze_backbone: true
+    fine_tune:
+      enabled: true
+      unfreeze_top_layers: 30
+
+    callbacks:
+      early_stopping:
+        monitor: "val_loss"
+        mode: "min"
+        patience: 4
+        min_delta: 0.0005
+        restore_best_weights: true
+
+      model_checkpoint:
+        monitor: "val_loss"
+        mode: "min"
+        save_best_only: true
+
+      reduce_lr_on_plateau:
+        enabled: true
+        monitor: "val_loss"
+        mode: "min"
+        factor: 0.5
+        patience: 2
+        min_lr: 0.000001
+
+    artifacts:
+      model_dir: "models/classification/resnet50"
+      best_model_name: "best_model.keras"
+      final_model_name: "final_model.keras"
+      history_name: "history.json"
+      metrics_name: "metrics.json"
+      accuracy_curve_path: "figures/training/resnet50_accuracy.png"
+      loss_curve_path: "figures/training/resnet50_loss.png"
+
+  efficientnetb0:
+    enabled: true
+    backbone: "efficientnetb0"
+    input_shape: [224, 224, 3]
+    weights: "imagenet"
+    include_top: false
+    pooling: "avg"
+    dense_units: 160
+    dropout_rate: 0.30
+    l2_regularization: 0.0001
+    freeze_backbone: true
+    fine_tune:
+      enabled: true
+      unfreeze_top_layers: 20
+
+    callbacks:
+      early_stopping:
+        monitor: "val_loss"
+        mode: "min"
+        patience: 4
+        min_delta: 0.0005
+        restore_best_weights: true
+
+      model_checkpoint:
+        monitor: "val_loss"
+        mode: "min"
+        save_best_only: true
+
+      reduce_lr_on_plateau:
+        enabled: true
+        monitor: "val_loss"
+        mode: "min"
+        factor: 0.5
+        patience: 2
+        min_lr: 0.000001
+
+    artifacts:
+      model_dir: "models/classification/efficientnetb0"
+      best_model_name: "best_model.keras"
+      final_model_name: "final_model.keras"
+      history_name: "history.json"
+      metrics_name: "metrics.json"
+      accuracy_curve_path: "figures/training/efficientnetb0_accuracy.png"
+      loss_curve_path: "figures/training/efficientnetb0_loss.png"
+
+reporting:
+  report_path: "reports/transfer_learning_report.md"
+  combined_curves_path: "docs/images/transfer_learning_curves.png"
+  comparison_table_path: "reports/transfer_learning_summary.csv"

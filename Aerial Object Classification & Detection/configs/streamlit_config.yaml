@@ -2,8 +2,80 @@ app:
   title: "Aerial Object Classification & Detection"
   layout: "wide"
   sidebar_state: "expanded"
+  page_icon: "🛰️"
 
-paths:
-  reports_dir: "reports"
-  figures_dir: "figures"
-  models_dir: "models"
+ui:
+  show_detection_mode: true
+  default_mode: "Classification"
+  enable_model_selector: true
+  confidence_decimals: 4
+  max_upload_size_mb: 10
+  save_example_assets: true
+
+classification:
+  default_model_key: "mobilenet"
+
+  models:
+    custom_cnn:
+      display_name: "Custom CNN"
+      model_path: "models/classification/custom_cnn/final_model.keras"
+      class_mapping_path: "models/classification/custom_cnn/class_mapping.json"
+      preprocess_mode: "custom"
+      backbone_name: null
+      enabled: true
+
+    mobilenet:
+      display_name: "MobileNetV2 Transfer"
+      model_path: "models/classification/mobilenet/final_model.keras"
+      class_mapping_path: "models/classification/final/class_mapping.json"
+      preprocess_mode: "transfer"
+      backbone_name: "mobilenetv2"
+      enabled: true
+
+    resnet50:
+      display_name: "ResNet50 Transfer"
+      model_path: "models/classification/resnet50/final_model.keras"
+      class_mapping_path: "models/classification/final/class_mapping.json"
+      preprocess_mode: "transfer"
+      backbone_name: "resnet50"
+      enabled: true
+
+    efficientnetb0:
+      display_name: "EfficientNetB0 Transfer"
+      model_path: "models/classification/efficientnetb0/final_model.keras"
+      class_mapping_path: "models/classification/final/class_mapping.json"
+      preprocess_mode: "transfer"
+      backbone_name: "efficientnetb0"
+      enabled: true
+
+detection:
+  enabled: true
+  detector_model_path: "models/detection/final/best_detector.pt"
+  confidence_threshold: 0.25
+  line_width: 2
+
+artifacts:
+  temp_upload_dir: "data/interim/app_uploads"
+  app_figure_dir: "figures/app"
+  docs_image_dir: "docs/images"
+
+  home_placeholder_path: "figures/app/streamlit_home.png"
+  classifier_example_path: "figures/app/streamlit_classifier_output.png"
+  detector_example_path: "figures/app/streamlit_detector_output.png"
+
+  docs_home_path: "docs/images/streamlit_home.png"
+  docs_prediction_path: "docs/images/streamlit_prediction.png"
+  docs_detection_path: "docs/images/streamlit_detection.png"
+
+content:
+  project_name: "Aerial Object Classification & Detection"
+  subtitle: "Binary aerial image classification with optional YOLOv8 detection"
+  description: >
+    Upload an aerial image to classify it as bird or drone, and optionally
+    run YOLOv8 detection if the detector artifact is available.
+  sidebar_points:
+    - "Binary classifier: bird vs drone"
+    - "Supports custom CNN and transfer-learning models"
+    - "Optional YOLOv8 object detection mode"
+    - "Config-driven artifact loading"
+    - "Designed for reproducible Colab/Drive project structure"
