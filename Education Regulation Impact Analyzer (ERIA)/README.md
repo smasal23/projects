@@ -2,6 +2,9 @@
 
 An AI-powered platform that simplifies complex education policies, regulations, and circulars into clear, structured, and stakeholder-friendly insights.
 
+## 🚀 Live Demo
+🔗 http://13.233.94.140:8501
+
 ---
 
 ## 🚀 Project Overview
