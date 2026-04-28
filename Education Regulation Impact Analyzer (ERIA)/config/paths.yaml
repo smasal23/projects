@@ -1,0 +1,17 @@
+data:
+  raw: data/raw/
+  interim: data/interim/
+  processed: data/processed/
+
+artifacts:
+  chunks: artifacts/chunks/
+  embeddings: artifacts/embeddings/
+  llm_outputs: artifacts/llm_outputs/
+
+reports:
+  summaries: reports/summaries/
+  stakeholders: reports/stakeholder_reports/
+  risks: reports/risk_reports/
+
+logs:
+  file: logs/app.log

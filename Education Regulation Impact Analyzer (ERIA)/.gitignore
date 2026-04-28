@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual env
+venv/
+.env
+
+# Logs
+logs/
+*.log
+
+# Data
+data/raw/*
+data/interim/*
+data/processed/*
+
+# Artifacts
+artifacts/chunks/*
+artifacts/embeddings/*
+artifacts/llm_outputs/*
+
+# Reports
+reports/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Streamlit
+.streamlit/
+
+# IDE
+.vscode/
+.idea/
+
+# Temp files
+*.tmp
+*.swp
+
+# Secrets
+.env

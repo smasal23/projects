@@ -1,0 +1,36 @@
+app:
+  name: ERIA
+  version: 1.0
+
+llm:
+  provider: groq
+  model: llama-3.3-70b-versatile
+  temperature: 0.3
+  max_tokens: 8192
+  max_input_chars: 12000
+
+
+
+classification:
+  model: facebook/bart-large-mnli
+  batch_size: 8
+  confidence_threshold: 0.35
+
+  labels:
+    - Eligibility Criteria
+    - Financial Benefits
+    - Implementation Process
+    - Administrative Structure
+    - Stakeholder Responsibilities
+    - Application Process
+    - Monitoring & Evaluation
+    - Scheme Overview
+
+preprocessing:
+  max_text_length: 5000
+  chunk_size: 1000
+  overlap: 100
+
+logging:
+  level: INFO
+  file: logs/app.log
