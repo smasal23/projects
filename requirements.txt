@@ -1,0 +1,17 @@
+PyYAML
+numpy
+pandas
+matplotlib
+seaborn
+scikit-learn
+scipy
+joblib
+pyyaml
+jupyter
+notebook
+ipykernel
+xgboost
+lightgbm
+streamlit
+pytest
+python-dotenv
