@@ -1,10 +1,10 @@
-import yaml
-print("yaml installed successfully")
-
 from __future__ import annotations
 
 from pathlib import Path
 import sys
+
+import yaml
+print("yaml installed successfully")
 
 import streamlit as st
 
