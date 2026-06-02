@@ -1,4 +1,4 @@
-PyYaml
+PyYAML
 numpy
 pandas
 matplotlib
