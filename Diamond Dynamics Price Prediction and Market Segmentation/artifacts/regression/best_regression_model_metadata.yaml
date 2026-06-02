@@ -1,0 +1,50 @@
+best_model_name: xgboost_regressor
+target_column: price
+use_log_target: true
+inverse_transform_predictions_for_reporting: true
+train_shape:
+- 43152
+- 8
+test_shape:
+- 10788
+- 8
+numeric_features:
+- volume
+- carat
+- depth
+- table
+categorical_features:
+- clarity
+- color
+- cut
+metrics_summary:
+- mae: 274.7590663515288
+  mse: 294178.1331507293
+  rmse: 542.381907101195
+  r2: 0.9814945312147656
+  model_name: xgboost_regressor
+  rank: 1
+- mae: 279.8895094525314
+  mse: 305725.4170384399
+  rmse: 552.9244225375108
+  r2: 0.9807681417335027
+  model_name: random_forest_regressor
+  rank: 2
+- mae: 358.3663270901338
+  mse: 468691.06618457835
+  rmse: 684.6101563551174
+  r2: 0.9705166804809624
+  model_name: decision_tree_regressor
+  rank: 3
+- mae: 405.3244795629827
+  mse: 602264.1326699035
+  rmse: 776.0567844364892
+  r2: 0.962114178956059
+  model_name: knn_regressor
+  rank: 4
+- mae: 1855.8927439211016
+  mse: 314373258.0873336
+  rmse: 17730.574104843126
+  r2: -18.775856390613463
+  model_name: linear_regression
+  rank: 5

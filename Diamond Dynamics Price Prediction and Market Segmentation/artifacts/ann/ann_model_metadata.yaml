@@ -1,0 +1,27 @@
+model_type: pytorch_ann_regressor
+target_column: price
+use_log_target: true
+inverse_transform_predictions_for_reporting: true
+input_dim: 24
+epochs_completed: 117
+best_val_loss: 0.010427628045755566
+batch_size: 64
+learning_rate: 0.001
+numeric_features:
+- volume
+- carat
+- depth
+- table
+categorical_features:
+- clarity
+- color
+- cut
+metrics:
+  mae: 299.1327285370563
+  mse: 342298.0356251489
+  rmse: 585.0624202810748
+  r2: 0.9784675171275811
+model_file: F:\DATA SCIENCE\Projects\Diamond Dynamics Price Prediction and Market
+  Segmentation\artifacts\ann\ann_regressor.pt
+preprocessor_file: F:\DATA SCIENCE\Projects\Diamond Dynamics Price Prediction and
+  Market Segmentation\artifacts\ann\ann_preprocessor.pkl

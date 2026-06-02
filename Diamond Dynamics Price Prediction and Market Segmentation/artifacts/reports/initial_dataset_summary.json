@@ -1,0 +1,34 @@
+{
+  "shape": {
+    "rows": 53940,
+    "columns": 10
+  },
+  "columns": [
+    "carat",
+    "cut",
+    "color",
+    "clarity",
+    "depth",
+    "table",
+    "price",
+    "x",
+    "y",
+    "z"
+  ],
+  "target_present": true,
+  "missing_required_columns": [],
+  "unexpected_columns": [],
+  "duplicate_rows": 146,
+  "dtypes": {
+    "carat": "float64",
+    "cut": "object",
+    "color": "object",
+    "clarity": "object",
+    "depth": "float64",
+    "table": "float64",
+    "price": "int64",
+    "x": "float64",
+    "y": "float64",
+    "z": "float64"
+  }
+}
