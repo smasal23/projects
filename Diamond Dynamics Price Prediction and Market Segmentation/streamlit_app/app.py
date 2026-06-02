@@ -1,3 +1,6 @@
+import yaml
+print("yaml installed successfully")
+
 from __future__ import annotations
 
 from pathlib import Path
