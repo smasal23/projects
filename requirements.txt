@@ -15,3 +15,4 @@ lightgbm
 streamlit
 pytest
 python-dotenv
+statsmodels
